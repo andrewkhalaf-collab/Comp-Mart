@@ -36,7 +36,7 @@ export const PRODUCTS: Record<string, Product[]> = {
       specs:{ Memory:"8GB GDDR6","Bus Width":"128-bit", TDP:"80W",  Interface:"PCIe 4.0 x16",Outputs:"HDMI 2.1, 3× DP 1.4a",Fans:"Dual Fan"},
       desc:"Extra VRAM headroom for higher texture quality and better multitasking at 1080p."},
     { id:"gpu-3",  name:"ASUS Dual RTX 5050",           variant:"8GB GDDR7 OC",    price:15500, badge:"New",
-      image: "https://api.delta-computer.net/storage/products/$2y$12$O0PTqbPYzx.epovaLy03U.n0kTp65HeC6pM2WM3nde0PLATykK5K.webphttps://cdn.cs.1worldsync.com/syndication/mediaserverredirect/318591628a1f4d83548ff56a08d4c7cf/original.jpg",
+      image: "https://dlcdnwebimgs.asus.com/files/media/360d09b4-91e7-46c0-8ac7-07c4ccc04cbd/img/kv/product-kv_s.jpg",
       specs:{ Memory:"8GB GDDR7","Bus Width":"128-bit", TDP:"100W", Interface:"PCIe 5.0 x8", Outputs:"HDMI 2.1, 3× DP 2.1", Fans:"Dual Fan"},
       desc:"Blackwell entry-class GPU with GDDR7 bandwidth — a significant generational leap."},
     { id:"gpu-4",  name:"ASUS Prime RTX 5050",          variant:"O8G",             price:16500, badge:"New",
