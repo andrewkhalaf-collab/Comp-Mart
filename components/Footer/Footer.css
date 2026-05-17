@@ -1,0 +1,6 @@
+.footer {
+  margin-top: 60px; border-top: 3px double var(--maroon-dk);
+  padding: 22px; text-align: center; font-size: 11.5px;
+  color: var(--sepia); font-style: italic;
+}
+.ornament { font-size: 18px; letter-spacing: 0.5em; color: var(--maroon); opacity: 0.5; margin-bottom: 10px; }

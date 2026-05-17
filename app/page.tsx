@@ -1,65 +1,132 @@
-import Image from "next/image";
+"use client";
 
-export default function Home() {
+import { useState, useCallback } from "react";
+import { CATEGORIES, PRODUCTS, Product } from "@/data/products";
+import Masthead from "@/components/Masthead/Masthead";
+import ProductCard from "@/components/ProductCard/ProductCard";
+import ProductModal from "@/components/ProductModal/ProductModal";
+import CompareModal from "@/components/CompareModal/CompareModal";
+import CompareBar from "@/components/CompareBar/CompareBar";
+import Footer from "@/components/Footer/Footer";
+import "./CompuMarts.css";
+
+export default function App() {
+  const [activeCategory, setActiveCategory] = useState("GPU");
+  const [compareList, setCompareList]       = useState<Product[]>([]);
+  const [selectedProduct, setSelectedProduct] = useState<Product | null>(null);
+  const [showCompare, setShowCompare]       = useState(false);
+  const [search, setSearch]                 = useState("");
+  const [sortBy, setSortBy]                 = useState("default");
+
+  const catMeta = CATEGORIES.find((c) => c.id === activeCategory);
+
+  const filtered = (PRODUCTS[activeCategory] || [])
+    .filter((p: Product) => {
+      const q = search.toLowerCase();
+      return (
+        p.name.toLowerCase().includes(q) ||
+        (p.variant || "").toLowerCase().includes(q) ||
+        (p.badge || "").toLowerCase().includes(q)
+      );
+    })
+    .sort((a: Product, b: Product) => {
+      if (sortBy === "price-asc")  return a.price - b.price;
+      if (sortBy === "price-desc") return b.price - a.price;
+      if (sortBy === "name")       return a.name.localeCompare(b.name);
+      return 0;
+    });
+
+  const toggleCompare = useCallback((product: Product) => {
+    setCompareList((prev) => {
+      if (prev.find((p) => p.id === product.id)) return prev.filter((p) => p.id !== product.id);
+      if (prev.length >= 3) return [...prev.slice(1), product];
+      return [...prev, product];
+    });
+  }, []);
+
+  const isInCompare = (id: string) => compareList.some((p) => p.id === id);
+
+  const handleCatChange = (catId: string) => {
+    setActiveCategory(catId);
+    setCompareList([]);
+    setSearch("");
+    setSortBy("default");
+  };
+
   return (
-    <div className="flex flex-col flex-1 items-center justify-center bg-zinc-50 font-sans dark:bg-black">
-      <main className="flex flex-1 w-full max-w-3xl flex-col items-center justify-between py-32 px-16 bg-white dark:bg-black sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={100}
-          height={20}
-          priority
-        />
-        <div className="flex flex-col items-center gap-6 text-center sm:items-start sm:text-left">
-          <h1 className="max-w-xs text-3xl font-semibold leading-10 tracking-tight text-black dark:text-zinc-50">
-            To get started, edit the page.tsx file.
-          </h1>
-          <p className="max-w-md text-lg leading-8 text-zinc-600 dark:text-zinc-400">
-            Looking for a starting point or more instructions? Head over to{" "}
-            <a
-              href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Templates
-            </a>{" "}
-            or the{" "}
-            <a
-              href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Learning
-            </a>{" "}
-            center.
-          </p>
+    <div id="root">
+      <Masthead 
+        categories={CATEGORIES} 
+        products={PRODUCTS} 
+        activeCategory={activeCategory} 
+        onCatChange={handleCatChange} 
+      />
+
+      <main className="main">
+        {/* Section header */}
+        <div className="sec-hdr">
+          <div className="sec-line" />
+          <div className="sec-title">{catMeta?.icon} {catMeta?.label}</div>
+          <div className="sec-line r" />
         </div>
-        <div className="flex flex-col gap-4 text-base font-medium sm:flex-row">
-          <a
-            className="flex h-12 w-full items-center justify-center gap-2 rounded-full bg-foreground px-5 text-background transition-colors hover:bg-[#383838] dark:hover:bg-[#ccc] md:w-[158px]"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={16}
-              height={16}
-            />
-            Deploy Now
-          </a>
-          <a
-            className="flex h-12 w-full items-center justify-center rounded-full border border-solid border-black/[.08] px-5 transition-colors hover:border-transparent hover:bg-black/[.04] dark:border-white/[.145] dark:hover:bg-[#1a1a1a] md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Documentation
-          </a>
+
+        {/* Toolbar */}
+        <div className="toolbar">
+          <input
+            className="search-in"
+            type="text"
+            placeholder={`Search ${activeCategory}…`}
+            value={search}
+            onChange={(e) => setSearch(e.target.value)}
+          />
+          <select className="sort-sel" value={sortBy} onChange={(e) => setSortBy(e.target.value)}>
+            <option value="default">Sort: Default</option>
+            <option value="price-asc">Price: Low → High</option>
+            <option value="price-desc">Price: High → Low</option>
+            <option value="name">Name: A – Z</option>
+          </select>
+          <div className="results-count">{filtered.length} item{filtered.length !== 1 ? "s" : ""}</div>
         </div>
+
+        {/* Grid */}
+        {filtered.length === 0 ? (
+          <div className="empty">No products found for &quot;{search}&quot;</div>
+        ) : (
+          <div className="grid">
+            {filtered.map((product) => (
+              <ProductCard
+                key={product.id}
+                product={product}
+                catIcon={catMeta?.icon}
+                inCompare={isInCompare(product.id)}
+                onToggle={() => toggleCompare(product)}
+                onView={() => setSelectedProduct(product)}
+              />
+            ))}
+          </div>
+        )}
+
+        <Footer />
       </main>
+
+      <CompareBar 
+        compareList={compareList} 
+        onToggle={toggleCompare} 
+        onShowCompare={() => setShowCompare(true)} 
+        onClear={() => setCompareList([])} 
+      />
+
+      {selectedProduct && (
+        <ProductModal
+          product={selectedProduct}
+          catIcon={catMeta?.icon}
+          onClose={() => setSelectedProduct(null)}
+        />
+      )}
+
+      {showCompare && compareList.length >= 2 && (
+        <CompareModal items={compareList} onClose={() => setShowCompare(false)} />
+      )}
     </div>
   );
 }

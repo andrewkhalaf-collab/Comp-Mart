@@ -1,0 +1,57 @@
+.masthead {
+  background: var(--paper-light);
+  border-bottom: 3px double var(--maroon-dk);
+  position: sticky; top: 0; z-index: 100;
+  box-shadow: 0 3px 20px var(--shadow);
+}
+.mast-top {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 6px 28px;
+  border-bottom: 1px solid var(--border);
+  font-size: 11px; font-style: italic; color: var(--sepia);
+  background: rgba(139,26,26,0.04);
+}
+@media(max-width:600px){ .mast-top { display: none; } }
+.mast-center {
+  text-align: center; padding: 14px 24px 10px;
+  border-bottom: 1px solid var(--border);
+}
+.shop-name {
+  font-family: 'Cinzel Decorative', serif;
+  font-size: clamp(26px, 5vw, 54px);
+  font-weight: 900; color: var(--maroon-dk);
+  letter-spacing: 0.05em; line-height: 1;
+  text-shadow: 2px 3px 0 var(--paper-aged), 4px 6px 0 rgba(139,26,26,0.12);
+}
+.shop-arabic {
+  font-size: clamp(14px, 2.5vw, 20px);
+  color: var(--maroon); font-weight: bold; margin-top: 3px;
+  direction: rtl; font-family: serif;
+}
+.shop-tagline {
+  font-family: 'Playfair Display', serif;
+  font-size: clamp(10px, 1.8vw, 13px);
+  font-style: italic; color: var(--sepia);
+  letter-spacing: 0.18em; text-transform: uppercase; margin-top: 5px;
+}
+/* ── CATEGORY NAV ── */
+.cat-nav {
+  display: flex; overflow-x: auto; padding: 0 20px;
+  scrollbar-width: none; background: var(--paper-light);
+}
+.cat-nav::-webkit-scrollbar { display: none; }
+.cat-btn {
+  padding: 10px 18px; border: none; background: transparent;
+  font-family: 'Playfair Display', serif;
+  font-size: 12.5px; font-weight: 700; color: var(--ink-faded);
+  cursor: pointer; text-transform: uppercase;
+  letter-spacing: 0.07em; border-bottom: 3px solid transparent;
+  white-space: nowrap; transition: all 0.2s ease;
+}
+.cat-btn:hover { color: var(--maroon); background: rgba(139,26,26,0.05); }
+.cat-btn.active { color: var(--maroon-dk); border-bottom-color: var(--maroon); }
+.cat-count {
+  display: inline-block; background: var(--maroon); color: var(--paper-light);
+  border-radius: 9px; font-size: 9px; padding: 1px 5px;
+  margin-left: 5px; font-family: 'Libre Baskerville', serif; font-weight: 700;
+}

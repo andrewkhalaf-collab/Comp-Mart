@@ -1,0 +1,122 @@
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  --paper:       #f3e3ba;
+  --paper-light: #faf5e8;
+  --paper-aged:  #e6cb97;
+  --paper-dark:  #d4b470;
+  --ink:         #1a0e06;
+  --ink-faded:   #3d2b1a;
+  --maroon:      #8b1a1a;
+  --maroon-h:    #a52020;
+  --maroon-dk:   #5c0f0f;
+  --gold:        #9a7c2e;
+  --gold-lt:     #c9a648;
+  --sepia:       #8a6432;
+  --border:      rgba(139,26,26,0.35);
+  --shadow:      rgba(26,14,6,0.28);
+}
+
+html {
+  min-height: 100% !important;
+  scroll-behavior: smooth;
+  background: linear-gradient(135deg, #daa520 0%, #c9954c 25%, #d4a574 50%, #c9954c 75%, #daa520 100%) !important;
+  background-attachment: fixed !important;
+  background-size: 400px 400px !important;
+}
+
+body {
+  font-family: 'Libre Baskerville', Georgia, serif;
+  background-image:
+    repeating-linear-gradient(0deg, transparent, transparent 2px, rgba(139,100,50,0.15) 2px, rgba(139,100,50,0.15) 4px),
+    repeating-linear-gradient(90deg, transparent, transparent 2px, rgba(139,100,50,0.12) 2px, rgba(139,100,50,0.12) 4px),
+    repeating-linear-gradient(45deg, transparent, transparent 3px, rgba(210,180,140,0.08) 3px, rgba(210,180,140,0.08) 6px),
+    repeating-linear-gradient(-45deg, transparent, transparent 3px, rgba(210,180,140,0.08) 3px, rgba(210,180,140,0.08) 6px) !important;
+  background-color: #e6d5b8 !important;
+  background-attachment: fixed !important;
+  background-size: 100%, 100%, 40px 40px, 40px 40px !important;
+  background-position: 0 0 !important;
+  color: var(--ink);
+  min-height: 100vh !important;
+  overflow-x: hidden;
+  position: relative;
+  padding: 24px 0 40px;
+}
+
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  background-image:
+    repeating-linear-gradient(0deg, transparent, transparent 28px, rgba(139,100,50,0.05) 28px, rgba(139,100,50,0.05) 29px),
+    repeating-linear-gradient(90deg, transparent, transparent 28px, rgba(139,100,50,0.04) 28px, rgba(139,100,50,0.04) 29px);
+  pointer-events: none;
+  z-index: 0;
+}
+
+#root {
+  position: relative;
+  z-index: 1;
+}
+
+::-webkit-scrollbar { width: 7px; }
+::-webkit-scrollbar-track { background: var(--paper-aged); }
+::-webkit-scrollbar-thumb { background: var(--maroon); }
+
+/* ── MAIN ── */
+.main {
+  max-width: 1380px;
+  margin: 0 auto;
+  padding: 32px 24px 120px;
+  background: rgba(255,255,255,0.92);
+  border-radius: 24px;
+  box-shadow: 0 18px 48px rgba(0,0,0,0.08);
+  backdrop-filter: blur(4px);
+}
+@media(max-width:768px){ .main { padding: 20px 14px 120px; } }
+
+/* ── SECTION HEADER ── */
+.sec-hdr { display: flex; align-items: center; gap: 14px; margin-bottom: 24px; }
+.sec-line { flex: 1; height: 2px; background: linear-gradient(to right, var(--maroon), transparent); }
+.sec-line.r { background: linear-gradient(to left, var(--maroon), transparent); }
+.sec-title {
+  font-family: 'Playfair Display', serif;
+  font-size: clamp(18px, 3vw, 26px); font-weight: 900;
+  color: var(--maroon-dk); text-transform: uppercase; letter-spacing: 0.1em;
+  white-space: nowrap;
+}
+
+/* ── TOOLBAR ── */
+.toolbar { display: flex; gap: 10px; margin-bottom: 26px; flex-wrap: wrap; }
+.search-in {
+  flex: 1; min-width: 200px; max-width: 380px;
+  padding: 9px 14px; border: 2px solid var(--border);
+  background: var(--paper-light); font-family: 'Libre Baskerville', serif;
+  font-size: 13px; color: var(--ink); outline: none;
+  transition: border-color 0.2s;
+}
+.search-in:focus { border-color: var(--maroon); }
+.search-in::placeholder { color: var(--sepia); font-style: italic; }
+.sort-sel {
+  padding: 9px 12px; border: 2px solid var(--border);
+  background: var(--paper-light); font-family: 'Libre Baskerville', serif;
+  font-size: 12px; color: var(--ink); cursor: pointer; outline: none;
+}
+.results-count {
+  display: flex; align-items: center;
+  font-size: 12px; font-style: italic; color: var(--sepia); padding: 0 4px;
+}
+
+/* ── PRODUCT GRID ── */
+.grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(275px, 1fr)); gap: 22px; }
+@media(max-width:480px){ .grid { grid-template-columns: 1fr; } }
+
+/* ── EMPTY ── */
+.empty { text-align: center; padding: 80px 20px; color: var(--sepia); font-family: 'Playfair Display', serif; font-size: 20px; font-style: italic; }
+
+/* ── INLINE BADGE ── */
+.badge-inline {
+  display: inline-block; background: var(--maroon); color: var(--paper-light);
+  font-family: 'Playfair Display', serif; font-size: 9.5px; font-weight: 700;
+  padding: 2px 8px; text-transform: uppercase; letter-spacing: 0.09em; margin-top: 8px;
+}
